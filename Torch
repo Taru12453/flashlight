@@ -1,0 +1,53 @@
+package com.example.musicapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.hardware.Camera;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+
+import java.security.Policy;
+
+public class MainActivity extends AppCompatActivity {
+    ImageButton switchoff , switchon;
+    Camera camera;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        switchoff = findViewById(R.id.switch_off);
+        switchon = findViewById(R.id.switch_on);
+
+       camera = Camera.open();
+       Camera.Parameters parameters = camera.getParameters();
+
+       switchoff.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               switchoff.setVisibility(View.GONE);
+               switchon.setVisibility(View.VISIBLE);
+               parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+               camera.setParameters(parameters);
+               camera.startPreview();
+           }
+       });
+       switchon.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               switchoff.setVisibility(View.VISIBLE);
+               switchon.setVisibility(View.GONE);
+               parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+               camera.stopPreview();
+           }
+       });
+    }
+}
+
+
+
+
+
+
